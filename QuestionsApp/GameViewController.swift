@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  GameViewController.swift
 //  QuestionsApp
 //
 //  Created by ADMIN on 13/12/22.
@@ -8,7 +8,7 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController {
+class GameViewController: UIViewController {
     
     private struct Const {
         static let score = "Puntaje"
