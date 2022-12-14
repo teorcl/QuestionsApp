@@ -98,6 +98,7 @@
                     <connections>
                         <outlet property="progressQuestionLabel" destination="HLb-yO-ktd" id="nFM-p7-Vgu"/>
                         <outlet property="questionLabel" destination="erE-7A-hUk" id="bRG-xJ-aY8"/>
+                        <outlet property="questionProgressView" destination="SmA-bj-Vly" id="Er0-v0-3SD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

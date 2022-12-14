@@ -13,6 +13,8 @@
 		841DDF1F294845C2008A3A6B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 841DDF1D294845C2008A3A6B /* Main.storyboard */; };
 		841DDF21294845C4008A3A6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 841DDF20294845C4008A3A6B /* Assets.xcassets */; };
 		841DDF24294845C4008A3A6B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 841DDF22294845C4008A3A6B /* LaunchScreen.storyboard */; };
+		84893C7029499C1200079E20 /* CorrectAnswerSoundEffect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 84893C6F29499C1200079E20 /* CorrectAnswerSoundEffect.mp3 */; };
+		84893C722949A26200079E20 /* WrongAnswerSoundEffect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 84893C712949A26200079E20 /* WrongAnswerSoundEffect.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		841DDF20294845C4008A3A6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		841DDF23294845C4008A3A6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		841DDF25294845C4008A3A6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84893C6F29499C1200079E20 /* CorrectAnswerSoundEffect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = CorrectAnswerSoundEffect.mp3; path = ../../../../Downloads/CorrectAnswerSoundEffect.mp3; sourceTree = "<group>"; };
+		84893C712949A26200079E20 /* WrongAnswerSoundEffect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = WrongAnswerSoundEffect.mp3; path = ../../../../Downloads/WrongAnswerSoundEffect.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +67,8 @@
 				841DDF20294845C4008A3A6B /* Assets.xcassets */,
 				841DDF22294845C4008A3A6B /* LaunchScreen.storyboard */,
 				841DDF25294845C4008A3A6B /* Info.plist */,
+				84893C6F29499C1200079E20 /* CorrectAnswerSoundEffect.mp3 */,
+				84893C712949A26200079E20 /* WrongAnswerSoundEffect.mp3 */,
 			);
 			path = QuestionsApp;
 			sourceTree = "<group>";
@@ -127,6 +133,8 @@
 			files = (
 				841DDF24294845C4008A3A6B /* LaunchScreen.storyboard in Resources */,
 				841DDF21294845C4008A3A6B /* Assets.xcassets in Resources */,
+				84893C7029499C1200079E20 /* CorrectAnswerSoundEffect.mp3 in Resources */,
+				84893C722949A26200079E20 /* WrongAnswerSoundEffect.mp3 in Resources */,
 				841DDF1F294845C2008A3A6B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
