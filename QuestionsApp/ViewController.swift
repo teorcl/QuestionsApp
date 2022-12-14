@@ -10,6 +10,14 @@ import AVFoundation
 
 class ViewController: UIViewController {
     
+    private struct Const {
+        static let score = "Puntaje"
+        static let tryAgain = "Volver a jugar"
+        static let correctAnswerSound = "CorrectAnswerSoundEffect"
+        static let wrongAnswerSound = "WrongAnswerSoundEffect"
+        static let mp3 = "mp3"
+    }
+    
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var progressQuestionLabel: UILabel!
     @IBOutlet weak var questionProgressView: UIProgressView!
@@ -29,11 +37,12 @@ class ViewController: UIViewController {
     ]
     
     var yesButtonPressed = false
-    var notButtonPressed = false
     var i = -1
     var j = 0
+    var score = 0
     var correctAnswerSoundEffect: AVAudioPlayer?
     var wrongAnswerSoundEffect: AVAudioPlayer?
+    var soundEffect: AVAudioPlayer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,25 +56,49 @@ class ViewController: UIViewController {
     
     @IBAction func notAnswerButtonPressed(_ sender: Any) {
         sendAnswer()
-        //notButtonPressed = true
     }
     
     private func sendAnswer(){
         validateAnswer()
     }
     
-    private func wasAButtonPressed() -> Bool {
-        yesButtonPressed || notButtonPressed
+    private func validateAnswer() {
+        if isCorrectAnswer(){
+            updateScore()
+            UIDevice.vibrate()
+            playSound(sound: Const.correctAnswerSound)
+            updateUI()
+        } else {
+            UIDevice.vibrate()
+            playSound(sound: Const.wrongAnswerSound)
+            updateUI()
+        }
+    }
+    
+    private func isCorrectAnswer() -> Bool {
+        let answerValue = "Q\(j)"
+        let answer = yesButtonPressed == answers[answerValue] ? true : false
+        yesButtonPressed = false
+        nextAnswer()
+        return answer
+    }
+    
+    private func nextAnswer(){
+        if j >= questions.count-1 {
+            j = 0
+        } else{
+            j += 1
+        }
     }
     
     private func updateQuestionLabel(){
-        updateQuestion()//
+        updateQuestion()
         questionLabel.text = questions[i]
     }
     
     private func updateQuestion(){
         if i >= questions.count-1 {
-            i = 0
+            showScore()
         } else{
             i += 1
         }
@@ -83,60 +116,47 @@ class ViewController: UIViewController {
         questionProgressView.progress = Float(currentQuestion)/Float(totalQuestions)
     }
     
-    private func validateAnswer() {
-        if isCorrectAnswer(){
-            playCorrectAnswerSound()
-            updateUI()
-        } else {
-            playWrongAnswerSound()
-            updateUI()
-        }
-    }
-    
-    private func isCorrectAnswer() -> Bool {
-        let answerValue = "Q\(j)"
-        let answer = yesButtonPressed == answers[answerValue] ? true : false
-        // Buscar si la respuesta si es válida
-        yesButtonPressed = false // Guardar en metodo
-        
-        //-----------------------------
-        if j >= questions.count-1 {
-            j = 0
-        } else{
-            j += 1
-        }
-        //-----------------------------
-        
-        return answer
-    }
-    
-    private func playCorrectAnswerSound(){
-        let audioPath = Bundle.main.path(forResource: "CorrectAnswerSoundEffect", ofType: "mp3")!
-        let url = URL(fileURLWithPath: audioPath)
-        do {
-            correctAnswerSoundEffect = try AVAudioPlayer(contentsOf: url)
-            correctAnswerSoundEffect?.play()
-        } catch{
-            print("Error")
-        }
-    }
-    
-    private func playWrongAnswerSound(){
-        let audioPath = Bundle.main.path(forResource: "WrongAnswerSoundEffect", ofType: "mp3")!
-        let url = URL(fileURLWithPath: audioPath)
-        do {
-            wrongAnswerSoundEffect = try AVAudioPlayer(contentsOf: url)
-            wrongAnswerSoundEffect?.play()
-        } catch{
-            print("Error")
-        }
-    }
-    
     private func updateUI(){
         updateQuestionLabel()
         updateProgressQuestionLabel()
         updateQuestionProgressView()
     }
     
+    private func updateScore(){
+        score += 1
+    }
+    
+    private func showScore(){
+        let message = "Su puntaje fue \(score)"
+        let scoreAlert = UIAlertController(title: Const.score, message: message, preferredStyle: .alert)
+        let tryAgainAction = UIAlertAction(title: Const.tryAgain, style: .default) { _ in
+            self.restartGame()
+        }
+        scoreAlert.addAction(tryAgainAction)
+        present(scoreAlert, animated: true)
+    }
+    
+    private func restartGame(){
+        i = -1
+        score = 0
+        updateUI()
+    }
+    
+    private func playSound(sound: String){
+        let audioPath = Bundle.main.path(forResource: sound, ofType: Const.mp3)!
+        let url = URL(fileURLWithPath: audioPath)
+        do {
+            soundEffect = try AVAudioPlayer(contentsOf: url)
+            soundEffect?.play()
+        } catch{
+            print("Error")
+        }
+    }
+}
+
+extension UIDevice {
+    static func vibrate() {
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+    }
 }
 
