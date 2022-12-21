@@ -29,6 +29,7 @@ class GameViewController: UIViewController {
         "¿La palabra reservada let se usa para definir constantes?"
     ]
     
+    // Question and Answer
     var answers:[String: Bool] = [
         "Q0":true,
         "Q1":false,
