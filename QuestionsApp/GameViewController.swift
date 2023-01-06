@@ -2,7 +2,7 @@
 //  GameViewController.swift
 //  QuestionsApp
 //
-//  Created by ADMIN on 13/12/22.
+//  Created by TEO on 13/12/22.
 //
 
 import UIKit
@@ -30,16 +30,15 @@ class GameViewController: UIViewController {
     ]
     
     // Question and Answer
-    var answers:[String: Bool] = [
-        "Q0":true,
-        "Q1":false,
-        "Q2":true,
-        "Q3":true
+    var answers:[Int: Bool] = [
+        0:true,
+        1:false,
+        2:true,
+        3:true
     ]
     
-    var yesButtonPressed = false
-    var i = -1
-    var j = 0
+    var affirmativeAnswerSelected = false
+    var questionIndex = 0
     var score = 0
     var correctAnswerSoundEffect: AVAudioPlayer?
     var wrongAnswerSoundEffect: AVAudioPlayer?
@@ -51,70 +50,53 @@ class GameViewController: UIViewController {
     }
 
     @IBAction func yesAnswerButtonPressed(_ sender: Any) {
-        yesButtonPressed = true
-        sendAnswer()
+        affirmativeAnswerSelected = true
+        processAnswer()
     }
     
     @IBAction func notAnswerButtonPressed(_ sender: Any) {
-        sendAnswer()
+        affirmativeAnswerSelected = false
+        processAnswer()
     }
     
-    private func sendAnswer(){
-        validateAnswer()
-    }
-    
-    private func validateAnswer() {
+    private func processAnswer() {
+        let soundToPlay: String
         if isCorrectAnswer(){
             updateScore()
-            UIDevice.vibrate()
-            playSound(sound: Const.correctAnswerSound)
-            updateUI()
+            soundToPlay = Const.correctAnswerSound
         } else {
-            UIDevice.vibrate()
-            playSound(sound: Const.wrongAnswerSound)
-            updateUI()
+            soundToPlay = Const.wrongAnswerSound
         }
+        nextAnswer()
+        playSound(sound: soundToPlay)
+        UIDevice.vibrate()
+        updateUI()
     }
     
     private func isCorrectAnswer() -> Bool {
-        let answerValue = "Q\(j)"
-        let answer = yesButtonPressed == answers[answerValue] ? true : false
-        yesButtonPressed = false
-        nextAnswer()
-        return answer
+        return affirmativeAnswerSelected == answers[questionIndex]
     }
     
     private func nextAnswer(){
-        if j >= questions.count-1 {
-            j = 0
+        if questionIndex >= questions.count-1 {
+            showScore()
         } else{
-            j += 1
+            questionIndex += 1
         }
     }
     
     private func updateQuestionLabel(){
-        updateQuestion()
-        questionLabel.text = questions[i]
+        questionLabel.text = questions[questionIndex]
     }
-    
-    private func updateQuestion(){
-        if i >= questions.count-1 {
-            showScore()
-        } else{
-            i += 1
-        }
-    }
-    
+        
     private func updateProgressQuestionLabel(){
-        let currentQuestion = i+1
         let totalQuestions = questions.count
-        progressQuestionLabel.text = "\(currentQuestion)/\(totalQuestions)"
+        progressQuestionLabel.text = "\(questionIndex + 1)/\(totalQuestions)"
     }
     
     private func updateQuestionProgressView(){
-        let currentQuestion = i+1
         let totalQuestions = questions.count
-        questionProgressView.progress = Float(currentQuestion)/Float(totalQuestions)
+        questionProgressView.progress = Float(questionIndex)/Float(totalQuestions)
     }
     
     private func updateUI(){
@@ -138,7 +120,7 @@ class GameViewController: UIViewController {
     }
     
     private func restartGame(){
-        i = -1
+        questionIndex = 0
         score = 0
         updateUI()
     }
